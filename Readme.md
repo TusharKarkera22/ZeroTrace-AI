@@ -15,7 +15,7 @@ Healthcare organizations need accurate diabetes risk prediction tools, but tradi
 ZeroTrace-AI is a **secure machine learning system** for predicting diabetes risk that protects sensitive patient data at all times.
 
 - Unlike traditional systems where data might be shared or centralized, this solution uses Nillion's decentralized computation platform to ensure that patient information, such as Glucose, BMI, or Age, remains encrypted and private during both model training and predictions.
-- The solution is a **privacy-preserving diabetes prediction system** built on Nillion's non-blockchain, non-MPC (multi-party computation) decentralized network. It leverages Nillion's unique architecture to process encrypted data for machine learning tasks, ensuring zero data leakage.
+- The solution is a **privacy-preserving diabetes prediction system** built on Nillion's decentralized network. It leverages Nillion's unique architecture, which combines multiple cryptographic techniques, including **multi-party computation (MPC)**, to process encrypted data for machine learning tasks, ensuring zero data leakage.
 - The prototype is a working proof-of-concept that demonstrates the core functionality of the diabetes prediction system using Nillion's testnet. It includes a backend, frontend, and privacy features, tailored for healthcare providers.
 
 ## ✨ Key Features
