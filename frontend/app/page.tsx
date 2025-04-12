@@ -18,7 +18,7 @@ export default function Home() {
       <section className="py-20 px-6 bg-gradient-to-b from-slate-50 to-white">
         <div className="max-w-5xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Secure Healthcare Machine Learning
+            Secure Healthcare with ZEROTRACE-AI
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
             Train powerful healthcare machine learning models on sensitive patient data 
