@@ -19,76 +19,75 @@ export default function Dashboard() {
           
           {/* Dashboard Summary */}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3 mb-8">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="px-4 py-5 sm:p-6">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0 bg-primary-100 rounded-md p-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-primary-600">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
-                    </svg>
-                  </div>
-                  <div className="ml-5">
-                    <dt className="text-sm font-medium text-gray-500 truncate">Total Datasets</dt>
-                    <dd className="mt-1 text-3xl font-semibold text-gray-900">12</dd>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-gray-50 px-4 py-4 sm:px-6">
-                <div className="text-sm">
-                  <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
-                    View all datasets
-                  </a>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="px-4 py-5 sm:p-6">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0 bg-primary-100 rounded-md p-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-primary-600">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
-                    </svg>
-                  </div>
-                  <div className="ml-5">
-                    <dt className="text-sm font-medium text-gray-500 truncate">Active Models</dt>
-                    <dd className="mt-1 text-3xl font-semibold text-gray-900">4</dd>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-gray-50 px-4 py-4 sm:px-6">
-                <div className="text-sm">
-                  <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
-                    View all models
-                  </a>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="px-4 py-5 sm:p-6">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0 bg-primary-100 rounded-md p-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-primary-600">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-                    </svg>
-                  </div>
-                  <div className="ml-5">
-                    <dt className="text-sm font-medium text-gray-500 truncate">Secure Computations</dt>
-                    <dd className="mt-1 text-3xl font-semibold text-gray-900">1,293</dd>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-gray-50 px-4 py-4 sm:px-6">
-                <div className="text-sm">
-                  <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
-                    View audit logs
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          
+  <div className="bg-blue-50 overflow-hidden shadow rounded-lg">
+    <div className="px-4 py-5 sm:p-6">
+      <div className="flex items-center">
+        <div className="flex-shrink-0 bg-blue-100 rounded-md p-3">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-blue-600">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+          </svg>
+        </div>
+        <div className="ml-5">
+          <dt className="text-sm font-medium text-gray-600 truncate">Total Datasets</dt>
+          <dd className="mt-1 text-3xl font-semibold text-gray-900">12</dd>
+        </div>
+      </div>
+    </div>
+    <div className="bg-blue-100 px-4 py-4 sm:px-6">
+      <div className="text-sm">
+        <a href="#" className="font-medium text-blue-700 hover:text-blue-500">
+          View all datasets
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div className="bg-green-50 overflow-hidden shadow rounded-lg">
+    <div className="px-4 py-5 sm:p-6">
+      <div className="flex items-center">
+        <div className="flex-shrink-0 bg-green-100 rounded-md p-3">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-green-600">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
+          </svg>
+        </div>
+        <div className="ml-5">
+          <dt className="text-sm font-medium text-gray-600 truncate">Active Models</dt>
+          <dd className="mt-1 text-3xl font-semibold text-gray-900">4</dd>
+        </div>
+      </div>
+    </div>
+    <div className="bg-green-100 px-4 py-4 sm:px-6">
+      <div className="text-sm">
+        <a href="#" className="font-medium text-green-700 hover:text-green-500">
+          View all models
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div className="bg-purple-50 overflow-hidden shadow rounded-lg">
+    <div className="px-4 py-5 sm:p-6">
+      <div className="flex items-center">
+        <div className="flex-shrink-0 bg-purple-100 rounded-md p-3">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-purple-600">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+          </svg>
+        </div>
+        <div className="ml-5">
+          <dt className="text-sm font-medium text-gray-600 truncate">Secure Computations</dt>
+          <dd className="mt-1 text-3xl font-semibold text-gray-900">1,293</dd>
+        </div>
+      </div>
+    </div>
+    <div className="bg-purple-100 px-4 py-4 sm:px-6">
+      <div className="text-sm">
+        <a href="#" className="font-medium text-purple-700 hover:text-purple-500">
+          View audit logs
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {/* ML Models Table */}
             <div className="bg-white shadow rounded-lg">
@@ -147,13 +146,13 @@ export default function Dashboard() {
                 </table>
               </div>
               <div className="bg-gray-50 px-4 py-4 sm:px-6 rounded-b-lg">
-                <button className="btn-primary inline-flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg>
-                  Train New Model
-                </button>
-              </div>
+  <button className="btn-primary inline-flex items-center bg-blue-600 hover:bg-blue-500">
+    <svg xmlns="http://www.w3.org/2000/svg" className="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+    </svg>
+    Train New Model
+  </button>
+</div>
             </div>
             
             {/* Recent Activity */}
@@ -239,7 +238,7 @@ export default function Dashboard() {
                   ))}
                 </ul>
                 <div className="mt-6 text-center">
-                  <a href="#" className="text-sm font-medium text-primary-600 hover:text-primary-500">
+                  <a href="#" className="text-sm font-medium text-blue-600 hover:text-blue-400">
                     View all activity
                   </a>
                 </div>
@@ -330,8 +329,8 @@ export default function Dashboard() {
                       </div>
                       
                       <div className="text-center pt-4">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          <svg className="-ml-0.5 mr-1.5 h-2 w-2 text-green-400" fill="currentColor" viewBox="0 0 8 8">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                          <svg className="-ml-0.5 mr-1.5 h-2 w-2 text-blue-400" fill="currentColor" viewBox="0 0 8 8">
                             <circle cx="4" cy="4" r="3" />
                           </svg>
                           All verifications passed
