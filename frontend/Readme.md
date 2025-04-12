@@ -1,68 +1,190 @@
-# Healthcare Secure ML Platform
+# Frontend - Diabetes Prediction Application
 
-This is a Next.js application that enables privacy-preserving machine learning for healthcare data while preserving patient privacy through advanced cryptographic technology.
+This frontend application is built using Next.js, Tailwind CSS, Framer Motion, and Axios to provide an intuitive interface for the Diabetes Prediction Application.
 
-## Features
+## 🛠️ Technologies Used
 
-- **Zero-Knowledge ML Training**: Machine learning models are trained on encrypted data using secure computation technology.
-- **Data Privacy Verification**: Visual tools to help users understand and verify how their data is protected.
-- **Secure Data Contribution**: Encrypted upload process that prevents exposure of sensitive healthcare information.
-- **Model Status Monitoring**: Track the progress of secure ML training jobs.
+- **Next.js**: React framework for production-grade applications
+- **Tailwind CSS**: Utility-first CSS framework
+- **Framer Motion**: Animation library for React
+- **Axios**: Promise-based HTTP client for making API requests
 
-## Tech Stack
+## 📁 Project Structure
 
-- **Frontend**: Next.js, React, TypeScript, Tailwind CSS
-- **Data Visualization**: Chart.js, D3.js
-- **ML Security**: Secure computation with zero-knowledge proofs
+```
+frontend/
+├── .next/                # Next.js build output
+├── app/                  # App router pages and components
+│   ├── components/       # Reusable UI components
+│   ├── dashboard/        # Dashboard page and related components
+│   ├── images/           # Static images used in the application
+│   ├── lib/              # Utility functions and helpers
+│   ├── train/            # Model training interface components
+│   ├── globals.css       # Global styles
+│   ├── layout.tsx        # Root layout component
+│   └── page.tsx          # Homepage component
+├── node_modules/         # Node.js dependencies
+├── public/               # Static assets
+│   └── home.png          # Home page image
+├── .env.local            # Environment variables (not committed to git)
+├── .gitignore            # Git ignore file
+├── next-env.d.ts         # TypeScript declarations for Next.js
+├── next.config.js        # Next.js configuration
+├── package-lock.json     # Locked dependencies
+├── package.json          # Project dependencies and scripts
+├── postcss.config.js     # PostCSS configuration for Tailwind
+├── README.md             # Project documentation
+├── tailwind.config.js    # Tailwind CSS configuration
+└── tsconfig.json         # TypeScript configuration
+```
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
-- npm or yarn
+- Node.js 18.x or higher
+- npm or yarn package manager
 
 ### Installation
 
-1. Clone the repository
+1. Clone the repository and navigate to the frontend directory:
+   ```bash
+   git clone https://github.com/TusharKarkera22/ZeroTrace-AI
+   cd diabetes-predictor/frontend
+   ```
+
 2. Install dependencies:
    ```bash
    npm install
-   ```
-3. Create a `.env.local` file with your environment variables:
-   ```
-   DEMO_API_URL=http://localhost:3000/api
-   DEMO_API_KEY=demo_api_key_for_simulation
+   # or
+   yarn install
    ```
 
-### Development
+3. Set up environment variables:
+   Create a `.env.local` file in the root directory with the following variables:
+   ```
+   NEXT_PUBLIC_API_URL=http://localhost:5000/api
+   NEXT_PUBLIC_NILLION_ENABLED=true
+   ```
 
-Run the development server:
+4. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-```bash
-npm run dev
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## 🎨 Features
+
+### Interactive Dashboard
+- Real-time diabetes prediction results
+- Patient data visualization
+- Historical predictions
+
+### Secure Data Handling
+- Integration with Nillion for privacy-preserving computations
+- Data encryption for sensitive information
+
+### Responsive Design
+- Mobile-friendly interface
+- Accessible UI components
+
+### Animations
+- Smooth transitions between pages
+- Interactive elements with Framer Motion
+
+## 💻 Usage
+
+### Patient Data Input
+Fill in the patient information form with the required metrics:
+- Age
+- BMI
+- Glucose level
+- Blood pressure
+- Insulin level
+- Skin thickness
+- Diabetes pedigree function
+- Pregnancies
+
+### Making Predictions
+1. Submit the form to get a prediction
+2. View detailed prediction results and confidence scores
+3. Save predictions for future reference
+
+### Training Interface
+Access the model training dashboard to:
+- View model performance metrics
+- Initiate new training sessions
+- Compare model versions
+
+## 🔌 API Integration
+
+The frontend communicates with the backend through a RESTful API using Axios:
+
+```javascript
+import axios from 'axios';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+// Example API call for prediction
+export const predictDiabetes = async (patientData) => {
+  try {
+    const response = await axios.post(`${API_URL}/predict`, patientData);
+    return response.data;
+  } catch (error) {
+    console.error("Error making prediction:", error);
+    throw error;
+  }
+};
 ```
 
-Visit http://localhost:3000 to view the application.
+## 🛡️ Nillion Integration
 
-## How It Works
+For privacy-preserving predictions, the frontend integrates with Nillion:
 
-1. **Secure Encryption**: Patient data is encrypted before leaving the user's device, ensuring privacy from the start.
-2. **Secure Distribution**: The encrypted data is split and distributed across a secure computation network, where no single node has access to the complete data.
-3. **Privacy-Preserving ML**: Machine learning models are trained on encrypted data using secure multi-party computation and homomorphic encryption.
-4. **Verifiable Processing**: Each step of the computation can be verified using zero-knowledge proofs, ensuring the integrity of the process without revealing the data.
+```javascript
+// Example of handling secure predictions
+const handleSecurePrediction = async (data) => {
+  setLoading(true);
+  try {
+    const response = await axios.post(`${API_URL}/secure-predict`, {
+      data,
+      useNillion: true
+    });
+    setPredictionResult(response.data);
+  } catch (error) {
+    setError('Failed to process secure prediction');
+  } finally {
+    setLoading(false);
+  }
+};
+```
 
-## Privacy Guarantees
 
-- **Mathematical Privacy**: Based on proven cryptographic techniques, not just policy promises
-- **Zero Data Exposure**: Raw data is never exposed at any point in the computation process
-- **Distributed Security**: Computation is split across multiple nodes for enhanced security
-- **Audit Trail**: Every operation is logged and cryptographically verified
+## 🚢 Deployment
 
-## Contributing
+Build the production-ready application:
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+```bash
+npm run build
+# or
+yarn build
+```
 
-## License
+Start the production server:
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+```bash
+npm start
+# or
+yarn start
+```
+
+## 📚 Additional Resources
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Framer Motion Documentation](https://www.framer.com/motion/)
+- [Axios Documentation](https://axios-http.com/docs/intro)
+- [Nillion Documentation](https://docs.nillion.com)
