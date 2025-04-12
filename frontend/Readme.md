@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Healthcare Secure ML Platform
+
+This is a Next.js application that enables privacy-preserving machine learning for healthcare data while preserving patient privacy through advanced cryptographic technology.
+
+## Features
+
+- **Zero-Knowledge ML Training**: Machine learning models are trained on encrypted data using secure computation technology.
+- **Data Privacy Verification**: Visual tools to help users understand and verify how their data is protected.
+- **Secure Data Contribution**: Encrypted upload process that prevents exposure of sensitive healthcare information.
+- **Model Status Monitoring**: Track the progress of secure ML training jobs.
+
+## Tech Stack
+
+- **Frontend**: Next.js, React, TypeScript, Tailwind CSS
+- **Data Visualization**: Chart.js, D3.js
+- **ML Security**: Secure computation with zero-knowledge proofs
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env.local` file with your environment variables:
+   ```
+   DEMO_API_URL=http://localhost:3000/api
+   DEMO_API_KEY=demo_api_key_for_simulation
+   ```
+
+### Development
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit http://localhost:3000 to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How It Works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Secure Encryption**: Patient data is encrypted before leaving the user's device, ensuring privacy from the start.
+2. **Secure Distribution**: The encrypted data is split and distributed across a secure computation network, where no single node has access to the complete data.
+3. **Privacy-Preserving ML**: Machine learning models are trained on encrypted data using secure multi-party computation and homomorphic encryption.
+4. **Verifiable Processing**: Each step of the computation can be verified using zero-knowledge proofs, ensuring the integrity of the process without revealing the data.
 
-## Learn More
+## Privacy Guarantees
 
-To learn more about Next.js, take a look at the following resources:
+- **Mathematical Privacy**: Based on proven cryptographic techniques, not just policy promises
+- **Zero Data Exposure**: Raw data is never exposed at any point in the computation process
+- **Distributed Security**: Computation is split across multiple nodes for enhanced security
+- **Audit Trail**: Every operation is logged and cryptographically verified
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License - see the LICENSE file for details. 
