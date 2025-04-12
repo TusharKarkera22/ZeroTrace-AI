@@ -103,7 +103,7 @@ export default function Home() {
       </div>
 
       <div className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition">
-        <div className="h-12 w-12 bg-primary-100 rounded-lg text-blue-600 flex items-center justify-center mb-4">
+        <div className="h-12 w-12 bg-primary-100 rounded-lg text-primary-600 flex items-center justify-center mb-4">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
           </svg>
@@ -115,7 +115,7 @@ export default function Home() {
       </div>
 
       <div className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition">
-        <div className="h-12 w-12 bg-primary-100 rounded-lg text-blue-600 flex items-center justify-center mb-4">
+        <div className="h-12 w-12 bg-primary-100 rounded-lg text-primary-600 flex items-center justify-center mb-4">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
           </svg>
@@ -129,54 +129,6 @@ export default function Home() {
   </div>
 </section>
 
-
-
-
-
-      {/* Testimonial Section - New
-      <section className="py-20 px-6 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Trusted by Healthcare Providers</h2>
-            <div className="w-24 h-1 bg-blue-600 mx-auto"></div>
-          </div>
-          
-          <div className="bg-white p-8 md:p-12 rounded-2xl shadow-lg border border-gray-100 relative">
-            <div className="absolute -top-5 left-10 text-6xl text-blue-200">"</div>
-            <div className="relative z-10">
-              <p className="text-xl md:text-2xl text-gray-700 italic mb-8">
-                SecureHealth's platform has revolutionized how we approach machine learning in healthcare. 
-                For the first time, we can collaborate on ML projects while maintaining strict patient privacy standards.
-              </p>
-              <div className="flex items-center">
-                <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                  <span className="font-bold text-blue-600">JD</span>
-                </div>
-                <div>
-                  <p className="font-bold text-gray-900">Dr. Jane Doe</p>
-                  <p className="text-gray-600">Chief Data Officer, Example Hospital</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="bg-white p-6 rounded-xl shadow-md flex items-center justify-center h-24">
-              <div className="text-2xl font-bold text-gray-400">Partner 1</div>
-            </div>
-            <div className="bg-white p-6 rounded-xl shadow-md flex items-center justify-center h-24">
-              <div className="text-2xl font-bold text-gray-400">Partner 2</div>
-            </div>
-            <div className="bg-white p-6 rounded-xl shadow-md flex items-center justify-center h-24">
-              <div className="text-2xl font-bold text-gray-400">Partner 3</div>
-            </div>
-            <div className="bg-white p-6 rounded-xl shadow-md flex items-center justify-center h-24">
-              <div className="text-2xl font-bold text-gray-400">Partner 4</div>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
       {/* Improved Footer */}
       <footer className="mt-auto py-12 px-6 bg-gray-900 text-white">
         <div className="max-w-6xl mx-auto">
@@ -184,9 +136,9 @@ export default function Home() {
             <div className="md:col-span-1">
               <div className="flex items-center mb-4">
                 <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-2">
-                  <span className="text-white font-bold text-lg">SH</span>
+                  <span className="text-white font-bold text-lg">AI</span>
                 </div>
-                <h2 className="text-2xl font-bold">SecureHealth</h2>
+                <h2 className="text-2xl font-bold">Zerotrace-AI</h2>
               </div>
               <p className="text-gray-400 mb-6">Secure healthcare ML platform powered by privacy-preserving technology.</p>
               <div className="flex space-x-4">
