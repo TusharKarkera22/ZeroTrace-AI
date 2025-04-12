@@ -13,7 +13,7 @@ const Navbar = () => {
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
               <Link href="/" className="flex items-center">
-                <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center mr-2">
+                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-2">
                   <span className="text-white font-bold text-lg">HC</span>
                 </div>
                 <span className="text-xl font-semibold text-gray-900">ZEROTRACE-AI</span>
@@ -24,7 +24,7 @@ const Navbar = () => {
                 href="/" 
                 className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
                   pathname === '/' 
-                    ? 'border-primary-500 text-gray-900' 
+                    ? 'border-blue-500 text-gray-900' 
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -34,7 +34,7 @@ const Navbar = () => {
                 href="/dashboard" 
                 className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
                   pathname === '/dashboard' 
-                    ? 'border-primary-500 text-gray-900' 
+                    ? 'border-blue-500 text-gray-900' 
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -44,7 +44,7 @@ const Navbar = () => {
                 href="/data-contribution" 
                 className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
                   pathname === '/data-contribution' 
-                    ? 'border-primary-500 text-gray-900' 
+                    ? 'border-blue-500 text-gray-900' 
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -54,7 +54,7 @@ const Navbar = () => {
                 href="/privacy" 
                 className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
                   pathname === '/privacy' 
-                    ? 'border-primary-500 text-gray-900' 
+                    ? 'border-blue-500 text-gray-900' 
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -63,7 +63,7 @@ const Navbar = () => {
             </div>
           </div>
           <div className="flex items-center">
-            <button className="btn-primary">Login</button>
+            <button className="bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition">Login</button>
           </div>
         </div>
       </div>
