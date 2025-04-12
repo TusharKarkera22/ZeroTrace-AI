@@ -237,11 +237,7 @@ export default function Dashboard() {
                     </li>
                   ))}
                 </ul>
-                <div className="mt-6 text-center">
-                  <a href="#" className="text-sm font-medium text-blue-600 hover:text-blue-400">
-                    View all activity
-                  </a>
-                </div>
+                
               </div>
             </div>
           </div>

@@ -77,9 +77,9 @@ export default function TrainPage() {
           <div className="bg-white shadow rounded-lg">
             {successMessage ? (
               <div className="p-8 text-center">
-                <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100">
                   <svg
-                    className="h-6 w-6 text-green-600"
+                    className="h-6 w-6 text-blue-600"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -113,7 +113,7 @@ export default function TrainPage() {
                       setSuccessMessage(null);
                       setJobId(null);
                     }}
-                    className="text-sm text-primary-600 hover:text-primary-500"
+                    className="text-sm text-blue-600 hover:text-blue-500"
                   >
                     Start Another Training Job
                   </button>
