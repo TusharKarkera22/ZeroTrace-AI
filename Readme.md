@@ -51,6 +51,8 @@ Our approach uses Nillion's cryptographic protocols to ensure that sensitive pat
 - Axios for API communication
 
 ## 🚀 Getting Started
+## Abstract
+https://docs.google.com/document/d/1GiOQDulwELWsXOLaTCwxVZGhBs3YghfnLErKDIAbdog/edit?usp=sharing
 
 ### Prerequisites
 - Python 3.8+
