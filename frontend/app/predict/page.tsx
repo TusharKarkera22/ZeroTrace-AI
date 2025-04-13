@@ -99,7 +99,7 @@ export default function DiabetesPrediction() {
     } catch (error) {
       console.error('Prediction error:', error);
       setPredictionError(
-        'Error processing your prediction request. Please try again.'
+        'Error processing your prediction request. Please try again or Free API is shutdown due to excessive credit. Please try running locally.'
       );
     } finally {
       setIsPredicting(false);

@@ -117,7 +117,7 @@ export default function DataContribution() {
       const axiosError = error as AxiosError<{detail: string}>;
       setUploadError(
         axiosError.response?.data?.detail || 
-        'Error uploading and processing your data. Please try again.'
+        'Error uploading and processing your data. Please try again or Free API is shutdown due to excessive credit. Please try running locally.'
       );
     } finally {
       setIsUploading(false);
