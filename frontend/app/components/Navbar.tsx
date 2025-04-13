@@ -2,79 +2,92 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const Navbar = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav className={`fixed w-full z-50 transition-all duration-300 ${
+      isScrolled ? 'bg-white/90 backdrop-blur-md shadow-lg' : 'bg-white/80'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
-            <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="flex items-center group">
-                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mr-2 transition-transform duration-200 group-hover:scale-105">
-                  <span className="text-white font-bold text-lg">HC</span>
-                </div>
-                <span className="text-xl font-semibold text-gray-900">ZeroTrace-AI</span>
-              </Link>
-            </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <Link 
-                href="/" 
-                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200 ${
-                  pathname === '/' 
-                    ? 'border-blue-500 text-gray-900' 
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                Home
-              </Link>
-              <Link 
-                href="/dashboard" 
-                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200 ${
-                  pathname === '/dashboard' 
-                    ? 'border-blue-500 text-gray-900' 
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                Dashboard
-              </Link>
-              <Link 
-                href="/data-contribution" 
-                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200 ${
-                  pathname === '/data-contribution' 
-                    ? 'border-blue-500 text-gray-900' 
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                Contribute Data
-              </Link>
-              <Link 
-                href="/privacy" 
-                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200 ${
-                  pathname === '/privacy' 
-                    ? 'border-blue-500 text-gray-900' 
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                Privacy Center
-              </Link>
-            </div>
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <div className="flex-shrink-0 flex items-center">
+            <Link href="/" className="flex items-center space-x-2 group">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:rotate-6">
+                <span className="text-white font-bold text-lg">ZT</span>
+              </div>
+              <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">ZeroTrace</span>
+            </Link>
+          </div>
+          
+          {/* Desktop navigation */}
+          <div className="hidden md:flex md:space-x-8">
+            <Link 
+              href="/predict" 
+              className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+                pathname === '/predict' 
+                  ? 'text-blue-600' 
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
+              Predict
+              {pathname === '/predict' && (
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600"></span>
+              )}
+            </Link>
+            <Link 
+              href="/dashboard" 
+              className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+                pathname === '/dashboard' 
+                  ? 'text-blue-600' 
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
+              Dashboard
+              {pathname === '/dashboard' && (
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600"></span>
+              )}
+            </Link>
+            <Link 
+              href="/data-contribution" 
+              className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+                pathname === '/data-contribution' 
+                  ? 'text-blue-600' 
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
+              Contribute Data
+              {pathname === '/data-contribution' && (
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600"></span>
+              )}
+            </Link>
           </div>
           
           {/* Mobile menu button */}
-          <div className="flex items-center sm:hidden">
+          <div className="flex items-center md:hidden">
             <button 
               onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none transition"
-              aria-expanded="false"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-blue-600 hover:bg-gray-100 focus:outline-none transition-colors"
+              aria-expanded={isMenuOpen}
             >
               <span className="sr-only">Open main menu</span>
               <svg 
@@ -103,51 +116,44 @@ const Navbar = () => {
       </div>
 
       {/* Mobile menu */}
-      <div className={`${isMenuOpen ? 'block' : 'hidden'} sm:hidden`}>
-        <div className="pt-2 pb-3 space-y-1">
+      <div 
+        className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
+          isMenuOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="px-2 pt-2 pb-3 space-y-1 bg-white/95 backdrop-blur-sm shadow-lg rounded-b-lg">
           <Link 
-            href="/"
-            className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
-              pathname === '/' 
-                ? 'bg-blue-50 border-blue-500 text-blue-700' 
-                : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'
+            href="/predict"
+            className={`block px-3 py-3 rounded-md text-base font-medium transition-colors ${
+              pathname === '/predict' 
+                ? 'bg-blue-50 text-blue-600' 
+                : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
             }`}
             onClick={() => setIsMenuOpen(false)}
           >
-            Home
+            Predict
           </Link>
           <Link 
             href="/dashboard"
-            className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
+            className={`block px-3 py-3 rounded-md text-base font-medium transition-colors ${
               pathname === '/dashboard' 
-                ? 'bg-blue-50 border-blue-500 text-blue-700' 
-                : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'
+                ? 'bg-blue-50 text-blue-600' 
+                : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
             }`}
             onClick={() => setIsMenuOpen(false)}
           >
             Dashboard
           </Link>
           <Link 
-            href="/data-contribution"
-            className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
-              pathname === '/data-contribution' 
-                ? 'bg-blue-50 border-blue-500 text-blue-700' 
-                : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'
+            href="/contribute"
+            className={`block px-3 py-3 rounded-md text-base font-medium transition-colors ${
+              pathname === '/contribute' 
+                ? 'bg-blue-50 text-blue-600' 
+                : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
             }`}
             onClick={() => setIsMenuOpen(false)}
           >
             Contribute Data
-          </Link>
-          <Link 
-            href="/privacy"
-            className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
-              pathname === '/privacy' 
-                ? 'bg-blue-50 border-blue-500 text-blue-700' 
-                : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'
-            }`}
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Privacy Center
           </Link>
         </div>
       </div>

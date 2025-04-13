@@ -103,8 +103,8 @@ export default function Home() {
             </Link>
           </motion.div>
           <motion.div whileHover={hoverScale}>
-            <Link href="/train" className="inline-block px-6 py-4 bg-white text-blue-600 border-2 border-blue-600 rounded-lg font-medium hover:bg-blue-50 transition shadow-md flex items-center justify-center">
-              Train Secure ML Models
+            <Link href="/predict" className="inline-block px-6 py-4 bg-white text-blue-600 border-2 border-blue-600 rounded-lg font-medium hover:bg-blue-50 transition shadow-md flex items-center justify-center">
+              Check your Diabetes Predicition
             </Link>
           </motion.div>
         </motion.div>
