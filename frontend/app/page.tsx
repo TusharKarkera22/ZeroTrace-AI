@@ -94,17 +94,23 @@ export default function Home() {
         {/* Improved button layout with subtle hover animation */}
         <motion.div 
           variants={itemVariants}
-          className="flex flex-row items-center gap-4"
+          className="flex flex-col sm:flex-row items-center gap-4 w-full"
         >
-          <motion.div whileHover={hoverScale}>
-            <Link href="/data-contribution" className="inline-block px-6 py-4 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition shadow-lg flex items-center justify-center group">
-              Contribute Healthcare Data
-              <ChevronRightIcon className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+          <motion.div whileHover={hoverScale} className="w-full sm:w-auto">
+            <Link 
+              href="/data-contribution" 
+              className="inline-block w-full sm:w-auto px-4 sm:px-6 py-3 sm:py-4 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition shadow-lg flex items-center justify-center group"
+            >
+              <span className="truncate">Contribute Healthcare Data</span>
+              <ChevronRightIcon className="ml-2 h-5 w-5 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
-          <motion.div whileHover={hoverScale}>
-            <Link href="/predict" className="inline-block px-6 py-4 bg-white text-blue-600 border-2 border-blue-600 rounded-lg font-medium hover:bg-blue-50 transition shadow-md flex items-center justify-center">
-              Check your Diabetes Predicition
+          <motion.div whileHover={hoverScale} className="w-full sm:w-auto">
+            <Link 
+              href="/predict" 
+              className="inline-block w-full sm:w-auto px-4 sm:px-6 py-3 sm:py-4 bg-white text-blue-600 border-2 border-blue-600 rounded-lg font-medium hover:bg-blue-50 transition shadow-md flex items-center justify-center"
+            >
+              <span className="truncate">Check your Diabetes Prediction</span>
             </Link>
           </motion.div>
         </motion.div>
