@@ -29,6 +29,31 @@ The project is organized into **frontend** and **backend** components:
 
 ## ⚙️ Installation
 
+### Option 1: Using Docker (Recommended)
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/TusharKarkera22/ZeroTrace-AI
+   cd diabetes-predictor
+   ```
+
+2. **Build and run with Docker Compose**
+
+   ```bash
+   docker-compose build
+   docker-compose up
+   ```
+
+   This will start both the backend and frontend services.
+
+3. **Access the application**
+
+   Open your browser and navigate to:
+   http://localhost:3000
+
+### Option 2: Manual Setup
+
 1. **Clone the repository**
 
    ```bash
@@ -49,15 +74,21 @@ The project is organized into **frontend** and **backend** components:
    pip install -r requirements.txt
    ```
 
-4. **Install Nillion SDK**
-
-   Follow the official Nillion installation docs: https://docs.nillion.com
-
-   Example (pseudo command):
+4. **Install and upgrade Nillion SDK**
 
    ```bash
    pip install nillion-sdk
+   pip install --upgrade nillion-client
    ```
+
+5. **Configure Nillion credentials**
+
+   Create or edit the `nillion.env` file:
+   ```
+   NILLION_PRIVATE_KEY=your_private_key_here
+   ```
+   
+   Replace `your_private_key_here` with your testnet wallet private key.
 
 ---
 
@@ -112,14 +143,53 @@ Use the UI to upload or enter patient data and view prediction results.
 ### Why Nillion?
 - 🧠 Perform ML computations without exposing raw patient data
 - 🔐 Ensures HIPAA/GDPR compliance through secure multi-party computation (SMPC)
+- 🔒 Zero-knowledge proofs for diabetes prediction
 
-### Nillion Setup (Example)
+### Nillion Setup
 ```python
 from nillion.client import NillionClient
 
-Use your testnet wallet private key credentials to connect to the Nillion network:
+# Initialize the client with your credentials
+client = NillionClient.from_env()
+
+# Create a secure computation session
+session = client.create_session()
+
+# Securely process patient data
+result = session.compute(model, encrypted_patient_data)
 ```
 
+---
+
+## 🐳 Docker Configuration
+
+### Docker Setup Files
+
+- `Dockerfile`: Defines the container image for the application
+- `docker-compose.yml`: Orchestrates the services
+- `.dockerignore`: Excludes unnecessary files from the build context
+
+### Docker Compose Services
+
+- **backend**: Python Flask API service
+- **frontend**: Web UI service
+- **database**: MongoDB for storing non-sensitive metadata
+
+To build and run with Docker:
+
+```bash
+# Build images
+docker-compose build
+
+# Start services in detached mode
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+```
 
 ---
 
@@ -127,3 +197,4 @@ Use your testnet wallet private key credentials to connect to the Nillion networ
 - [Nillion Official Docs](https://docs.nillion.com)
 - [Pima Indians Diabetes Dataset](https://www.kaggle.com/uciml/pima-indians-diabetes-database)
 - [scikit-learn Documentation](https://scikit-learn.org/stable/documentation.html)
+- [Docker Documentation](https://docs.docker.com/)

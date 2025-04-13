@@ -1,4 +1,10 @@
-from flask import Flask, request, jsonify, render_template
+from fastapi import FastAPI, UploadFile, File, HTTPException, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
+from typing import List, Dict, Union, Optional
 import pandas as pd
 import numpy as np
 import joblib
@@ -6,49 +12,95 @@ import os
 import json
 import uuid
 import asyncio
-from werkzeug.utils import secure_filename
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score
 
-import nada_numpy as na
-import nada_numpy.client as na_client
-from dotenv import load_dotenv
-from nillion_client import (
-    InputPartyBinding, Network, NilChainPayer,
-    NilChainPrivateKey, OutputPartyBinding,
-    Permissions, PrivateKey, SecretInteger, VmClient
-)
-from nillion_client.ids import UserId
-from nada_ai.client import SklearnClient
+# Try to import plotly with a fallback
+try:
+    import plotly
+    PLOTLY_AVAILABLE = True
+except ImportError:
+    PLOTLY_AVAILABLE = False
+    print("Plotly import failed, interactive plots will not be available")
 
-app = Flask(__name__)
+# Lazy import for Nillion libraries to reduce memory usage
+def get_nillion_imports():
+    import nada_numpy as na
+    import nada_numpy.client as na_client
+    from dotenv import load_dotenv
+    from nillion_client import (
+        InputPartyBinding, Network, NilChainPayer,
+        NilChainPrivateKey, OutputPartyBinding,
+        Permissions, PrivateKey, SecretInteger, VmClient
+    )
+    from nillion_client.ids import UserId
+    from nada_ai.client import SklearnClient
+    
+    return na, na_client, load_dotenv, InputPartyBinding, Network, NilChainPayer, \
+           NilChainPrivateKey, OutputPartyBinding, Permissions, PrivateKey, \
+           SecretInteger, VmClient, UserId, SklearnClient
 
 # Create necessary directories
 os.makedirs("uploads", exist_ok=True)
 os.makedirs("model", exist_ok=True)
-
-# Load environment variables
-if os.path.exists(".env"):
-    load_dotenv(".env")
-else:
-    # For Vercel deployment
-    home = os.getenv("HOME", "")
-    if os.path.exists("nillion.env"):
-        load_dotenv("nillion.env")
+os.makedirs("target", exist_ok=True)
 
 # Constants
 MODEL_PATH = "model/diabetes_classifier.joblib"
 SCALER_PATH = "model/diabetes_scaler.joblib"
 PROVIDER_INFO_PATH = "model/provider_info.json"
 
+# Initialize FastAPI app
+app = FastAPI(
+    title="Diabetes Prediction API",
+    description="API for predicting diabetes risk using patient data with secure computation",
+    version="1.0.0"
+)
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Templates setup
+templates = Jinja2Templates(directory="templates")
+
+# Data models
+class PatientData(BaseModel):
+    Pregnancies: float
+    Glucose: float
+    BloodPressure: float
+    SkinThickness: float
+    Insulin: float
+    BMI: float
+    DiabetesPedigreeFunction: float
+    Age: float
+    use_local: Optional[bool] = True
+
+class PredictionResponse(BaseModel):
+    diabetes_probability: float
+    risk_level: str
+
+class TrainingResponse(BaseModel):
+    message: str
+    accuracy: float
+    model_stored: bool
+
 # Helper functions
 async def new_client(network, id: int, private_key=None):
     """Create a new VmClient for a participant"""
+    # Import the necessary modules only when needed
+    _, _, _, _, _, NilChainPayer, NilChainPrivateKey, _, _, PrivateKey, _, VmClient, _, _ = get_nillion_imports()
+    
     nilchain_key = os.getenv(f"NILLION_NILCHAIN_PRIVATE_KEY_{id}")
     if not nilchain_key:
-        return jsonify({"error": f"Missing environment variable NILLION_NILCHAIN_PRIVATE_KEY_{id}"}), 500
+        raise HTTPException(status_code=500, detail=f"Missing environment variable NILLION_NILCHAIN_PRIVATE_KEY_{id}")
         
     payer = NilChainPayer(
         network,
@@ -59,9 +111,6 @@ async def new_client(network, id: int, private_key=None):
     # Use random key or passed private key
     signing_key = PrivateKey(private_key)
     client = await VmClient.create(signing_key, network, payer)
-
-    # Fund the client before use
-    
     
     return client
 
@@ -133,8 +182,16 @@ def train_diabetes_model(custom_data_path=None):
 
 async def store_model_on_nillion(model):
     """Store the model on the Nillion network"""
+    # Import the necessary modules only when needed
+    na, na_client, load_dotenv, InputPartyBinding, Network, _, _, _, Permissions, _, _, _, UserId, SklearnClient = get_nillion_imports()
+    
+    # Load environment variables
+    if os.path.exists(".env"):
+        load_dotenv(".env")
+    elif os.path.exists("nillion.env"):
+        load_dotenv("nillion.env")
+    
     # Connect to the Nillion network
-   
     network = Network(
         chain_id="nillion-chain-testnet-1",
         chain_grpc_endpoint="https://testnet-nillion-grpc.lavenderfive.com",
@@ -198,6 +255,15 @@ async def store_model_on_nillion(model):
 
 async def predict_diabetes(patient_data):
     """Make a prediction using the stored model on Nillion"""
+    # Import the necessary modules only when needed
+    na, na_client, load_dotenv, InputPartyBinding, Network, _, _, OutputPartyBinding, Permissions, _, _, _, UserId, _ = get_nillion_imports()
+    
+    # Load environment variables
+    if os.path.exists(".env"):
+        load_dotenv(".env")
+    elif os.path.exists("nillion.env"):
+        load_dotenv("nillion.env")
+    
     # Load provider information
     if not os.path.exists(PROVIDER_INFO_PATH):
         raise FileNotFoundError("Model not deployed to Nillion yet. Please train the model first.")
@@ -217,7 +283,6 @@ async def predict_diabetes(patient_data):
     patient_data_scaled = scaler.transform([patient_data])[0]
 
     # Connect to the Nillion network
-    
     network = Network(
         chain_id="nillion-chain-testnet-1",
         chain_grpc_endpoint="https://testnet-nillion-grpc.lavenderfive.com",
@@ -266,9 +331,16 @@ async def predict_diabetes(patient_data):
     
     return probability
 
-def process_patient_data(data):
+def process_patient_data(data: Union[PatientData, Dict, List, str]):
     """Convert patient data from various formats to a standardized numpy array"""
-    if isinstance(data, dict):
+    if isinstance(data, PatientData):
+        # If the data is a Pydantic model, convert to a list in the correct order
+        column_names = [
+            'Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness',
+            'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age'
+        ]
+        return np.array([getattr(data, col) for col in column_names])
+    elif isinstance(data, dict):
         # If the data is a dictionary, convert to a list in the correct order
         column_names = [
             'Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness',
@@ -289,127 +361,27 @@ def process_patient_data(data):
     else:
         raise ValueError("Unsupported data format")
 
-# Routes for the API
-@app.route('/')
-def home():
+# Routes
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
     """Home page with basic usage instructions"""
-    return render_template('index.html')
-
-@app.route('/train', methods=['POST'])
-def train_model():
-    """Train the model with optional custom data"""
-    if 'file' not in request.files:
-        return jsonify({"error": "No file provided"}), 400
-        
-    file = request.files['file']
-    
-    if file.filename == '':
-        return jsonify({"error": "No file selected"}), 400
-        
-    if file and file.filename.endswith('.csv'):
-        filename = secure_filename(file.filename)
-        filepath = os.path.join('uploads', filename)
-        file.save(filepath)
-        
-        try:
-            model, scaler, accuracy = train_diabetes_model(filepath)
-            
-            # Store the model on Nillion in a background task
-            async def store_model_background():
-                try:
-                    program_id, model_store_id, provider_user_id = await store_model_on_nillion(model)
-                    print(f"Model stored successfully: {model_store_id}")
-                except Exception as e:
-                    print(f"Error storing model: {e}")
-            
-            # Start background task
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            loop.run_until_complete(store_model_background())
-            loop.close()
-            
-            return jsonify({
-                "message": "Model trained successfully",
-                "accuracy": float(accuracy),
-                "model_stored": True
-            })
-            
-        except Exception as e:
-            return jsonify({"error": str(e)}), 500
-    else:
-        return jsonify({"error": "File must be a CSV"}), 400
-
-@app.route('/predict', methods=['POST'])
-def predict():
-    """Make a prediction using the trained model"""
-    data = request.json
-    
-    if not data:
-        return jsonify({"error": "No data provided"}), 400
-    
-    try:
-        patient_data = process_patient_data(data)
-        
-        # For local prediction (faster)
-        if 'use_local' in data and data['use_local'] and os.path.exists(MODEL_PATH):
-            model = joblib.load(MODEL_PATH)
-            scaler = joblib.load(SCALER_PATH)
-            
-            # Scale the patient data
-            patient_data_scaled = scaler.transform([patient_data])[0]
-            
-            # Make prediction
-            probability = model.predict_proba([patient_data_scaled])[0][1]
-            
-            return jsonify({
-                "diabetes_probability": float(probability),
-                "risk_level": "High" if probability > 0.5 else "Low"
-            })
-        
-        # For Nillion prediction (secure but more complex)
-        else:
-            # Run the prediction asynchronously
-            async def get_prediction():
-                try:
-                    probability = await predict_diabetes(patient_data)
-                    return probability
-                except Exception as e:
-                    print(f"Error making prediction: {e}")
-                    raise e
-            
-            # Execute the prediction
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            probability = loop.run_until_complete(get_prediction())
-            loop.close()
-            
-            return jsonify({
-                "diabetes_probability": float(probability),
-                "risk_level": "High" if probability > 0.5 else "Low"
-            })
-            
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-# Add a basic HTML template for the home page
-@app.route('/templates/index.html')
-def serve_template():
-    return """
-    <!DOCTYPE html>
+    html_content = """
     <html>
     <head>
         <title>Diabetes Prediction API</title>
         <style>
             body { font-family: Arial, sans-serif; margin: 20px; }
-            h1 { color: #333; }
-            pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+            h1 { color: #2c3e50; }
+            h2 { color: #3498db; }
+            code { background-color: #f8f9fa; padding: 2px 5px; border-radius: 3px; }
+            pre { background-color: #f8f9fa; padding: 10px; border-radius: 5px; }
         </style>
     </head>
     <body>
         <h1>Diabetes Prediction API</h1>
         <h2>Endpoints:</h2>
         <h3>Train Model</h3>
-        <pre>POST /train</pre>
+        <p><code>POST /train</code></p>
         <p>Upload a CSV file to train the model. The file should have the following columns:</p>
         <ul>
             <li>Pregnancies</li>
@@ -424,7 +396,7 @@ def serve_template():
         </ul>
         
         <h3>Predict</h3>
-        <pre>POST /predict</pre>
+        <p><code>POST /predict</code></p>
         <p>Send patient data to get a diabetes prediction. Format:</p>
         <pre>
 {
@@ -439,10 +411,72 @@ def serve_template():
   "use_local": true
 }
         </pre>
-        <p>Set <code>use_local: true</code> for local prediction or <code>false</code> for secure Nillion prediction.</p>
+        <p>Set use_local: true for local prediction or false for secure Nillion prediction.</p>
     </body>
     </html>
     """
+    return HTMLResponse(content=html_content)
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+@app.post("/train", response_model=TrainingResponse)
+async def train_model(file: UploadFile = File(...)):
+    """Train the model with optional custom data"""
+    if not file.filename.endswith('.csv'):
+        raise HTTPException(status_code=400, detail="File must be a CSV")
+
+    # Save uploaded file temporarily
+    filepath = os.path.join('uploads', file.filename)
+    with open(filepath, 'wb') as buffer:
+        buffer.write(await file.read())
+
+    try:
+        model, scaler, accuracy = train_diabetes_model(filepath)
+        
+        # Create background task to store model on Nillion
+        background_tasks = asyncio.create_task(store_model_on_nillion(model))
+        
+        return TrainingResponse(
+            message="Model trained successfully",
+            accuracy=float(accuracy),
+            model_stored=True
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/predict", response_model=PredictionResponse)
+async def predict(data: PatientData):
+    """Make a prediction using the trained model"""
+    try:
+        patient_data = process_patient_data(data)
+        
+        # For local prediction (faster)
+        if data.use_local and os.path.exists(MODEL_PATH):
+            model = joblib.load(MODEL_PATH)
+            scaler = joblib.load(SCALER_PATH)
+            
+            # Scale the patient data
+            patient_data_scaled = scaler.transform([patient_data])[0]
+            
+            # Make prediction
+            probability = model.predict_proba([patient_data_scaled])[0][1]
+            
+            return PredictionResponse(
+                diabetes_probability=float(probability),
+                risk_level="High" if probability > 0.5 else "Low"
+            )
+        
+        # For Nillion prediction (secure but more complex)
+        else:
+            probability = await predict_diabetes(patient_data)
+            
+            return PredictionResponse(
+                diabetes_probability=float(probability),
+                risk_level="High" if probability > 0.5 else "Low"
+            )
+            
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/health")
+async def health_check():
+    """API health check endpoint"""
+    return {"status": "healthy"}

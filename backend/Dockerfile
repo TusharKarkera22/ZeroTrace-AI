@@ -1,61 +1,46 @@
-FROM python:3.12-slim-bullseye
+# Use official Python 3.12 slim image
+FROM python:3.12-slim
 
+# Set working directory
 WORKDIR /app
 
-# Install curl and other dependencies
-RUN apt-get update && apt-get install -y curl build-essential libssl-dev pkg-config
+# Install pkg-config and any other needed build dependencies
+RUN apt-get update && apt-get install -y \
+    pkg-config \
+    build-essential \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install nillion toolchain
-RUN curl https://nilup.nilogy.xyz/install.sh | bash
+# Create necessary directories with proper permissions
+RUN mkdir -p /app/uploads /app/model /app/target && \
+    chmod 777 /app/uploads /app/model /app/target
 
-# Add nillion to PATH
-ENV PATH="/root/.nilup/bin:${PATH}"
-
-# Install nillion devnet
-RUN nillion install latest
-
-# Copy requirements and install Python dependencies
+# Copy requirements first to leverage Docker cache
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --upgrade nada-dsl nillion-client
+
+# Create a custom requirements file without plotly to reduce memory footprint
+RUN grep -v "plotly" requirements.txt > requirements_minimal.txt
+
+# Install dependencies with memory optimizations
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements_minimal.txt && \
+    pip install --upgrade nillion-client
 
 # Copy application code
 COPY . .
 
-# Create a script to handle properly building with devnet running
-RUN echo '#!/bin/bash\n\
-# Start nillion-devnet in the background\n\
-nillion-devnet &\n\
-DEVNET_PID=$!\n\
-# Wait for devnet to fully start\n\
-sleep 15\n\
-# Build nada program\n\
-echo "Building nada program..."\n\
-nada build\n\
-# Keep devnet running for the Flask app\n\
-echo "Nada build complete, keeping devnet running"\n\
-' > /app/build_nada.sh
+# Create non-root user with UID 10001 and switch to it
+RUN useradd -u 10001 -m appuser && \
+    chown -R appuser:appuser /app
+USER 10001
 
-RUN chmod +x /app/build_nada.sh
+# Set environment variables to optimize memory usage
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONIOENCODING=UTF-8 \
+    PYTHONHASHSEED=random \
+    PYTHONMALLOC=malloc \
+    SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
 
-# Execute the build script to properly build with devnet running
-RUN /app/build_nada.sh
-
-# Setup entrypoint script for running the server
-RUN echo '#!/bin/bash\n\
-# Start nillion-devnet in the background if not already running\n\
-pgrep -f nillion-devnet > /dev/null || (nillion-devnet &)\n\
-# Wait for devnet to fully start\n\
-sleep 15\n\
-# Start the Flask application\n\
-echo "Starting Flask application..."\n\
-gunicorn --bind 0.0.0.0:$PORT app:app\n\
-' > /app/entrypoint.sh
-
-RUN chmod +x /app/entrypoint.sh
-
-# Expose port
-EXPOSE 5000
-
-# Run the entrypoint script
-ENTRYPOINT ["/app/entrypoint.sh"]
+# Run with limited workers and threads for better memory management
+CMD ["gunicorn", "--workers", "1", "--worker-class", "uvicorn.workers.UvicornWorker", "--worker-tmp-dir", "/dev/shm", "--threads", "2", "--timeout", "300", "--bind", "0.0.0.0:8000", "app:app", "--preload", "--max-requests", "50", "--max-requests-jitter", "10"]
